@@ -21,8 +21,7 @@ def addzero(ori):
 
 
 def decoder(oridata, timedata):
-    #data = open("C:\\Users\\User\\Desktop\\sea_drift_data.txt", 'w+')
-    data = open("D:\\ARSmicro\\test\\data\\list.txt", 'w+')
+    data = open("C:\\Users\\User\\Desktop\\sea_drift_data.txt", 'w+')
 
     newtimedata = timedata[0:10]+' '+timedata[11:13]+':' + \
         timedata[13:15]+':'+timedata[15:17]+' '+timedata[19:22]
