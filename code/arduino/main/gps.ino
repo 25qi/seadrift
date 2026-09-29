@@ -1,5 +1,4 @@
-unsigned long gpstime= 20000; //milseconds 1000=1秒 //gps>420000
-//注意資料型別！
+unsigned long gpsworktime = 20000; //milseconds 000
 #include <TinyGPS++.h>//GPS模組S
 #include <AltSoftSerial.h>
 TinyGPSPlus gps;
@@ -8,8 +7,8 @@ AltSoftSerial GPSss;//GPS模組，Pin8為RX，接GPS的TXD；Pin9為TX，接GPS�
 struct structgps {
   double latitude;
   double longitude;
-  //unsigned long gpsdate;
-  //unsigned long gpstime;
+//  unsigned long gpsdate;
+//  unsigned long gpstime;
 } gpsdata;
 //////////////////////////////////////////////////////////////////////
 void setup_gps() {
@@ -20,20 +19,12 @@ void setup_gps() {
 void gpswork() {
   unsigned long start_time = millis();
   // try for 250 seconds and break if all is valid early
-  while ( (millis() - start_time) < gpstime ) {
-    //Serial.println( (millis() - start_time) < 60000 );
-    //Serial.println((millis() - start_time));
-    //types(millis());
-    //types(millis() - start_time);
-    while (GPSss.available() > 0){
+  while ( millis() - start_time < gpsworktime ) {
+    while (GPSss.available() > 0) {
       if (gps.encode(GPSss.read())) {
         if (gps.location.isValid()) {
           gpsdata.latitude = gps.location.lat();
           gpsdata.longitude = gps.location.lng();
-        }
-        if (gps.date.isValid() && gps.time.isValid()) {
-          gps.time.value();
-          gps.date.value();
         }
       }
     }
@@ -43,7 +34,6 @@ void gpswork() {
       blueled_work(1);
       if (gpsdata.latitude != 0) {
         //這裡再看要怎麼寫
-        buzzer01();
         break;
       }
     }
@@ -52,10 +42,13 @@ void gpswork() {
 }
 //////////////////////////////////////////////////////////////////////
 void send_data_gps() {
-  Serial.print("Location: ");
-  Serial.print(gpsdata.latitude, 6); 
-  Serial.print(", "); 
-  Serial.println(gpsdata.longitude, 6);
-
+  Serial.println(gpsdata.longitude, 6); 
+  Serial.println(gpsdata.latitude, 6);
+//  Serial.print("Date: ");
+//  Serial.print(gpsdata.gpsdate);
+//  Serial.print("  Time: ");
+//  Serial.print(gpsdata.gpstime);
+  addToQueue(gpsdata.longitude*1000000, 29);//Serial.print("接下來發送latitude28");
+  addToQueue(gpsdata.latitude*1000000, 28);
   delay(1000);
 }
