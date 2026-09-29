@@ -12,37 +12,41 @@ void TCA9548A(uint8_t bus) { //調整MUX現在要處理誰的函式
 }
 //////////////////////////////////////////////////////
 void setup() {
-//  Serial.begin(9600);
-//  Serial.print("SerialBegin");
   delay(5000); //預留時間，等待開機電源供應穩定
   pinMode(led, OUTPUT); //設定led的腳為輸出
-  setup_blueled();//Serial.println(F("blueledOK"));
-  setup_buzzer();//Serial.println(F("buzzerOK"));
+  Wire.begin();
+  setup_blueled();
+  //setup_buzzer();
+  delay(500);
   //setup_powerControl();
-  Wire.begin();//Serial.println(F("wireOK"));
+  //buzzergo(2);
+  blueled_work(2);
   delay(1000);
-  buzzergo(1);//gps開始
-  setup_gps();//Serial.println(F("gpssetupOK"));
-  buzzergo(2);
-  setup_gy91();//Serial.println(F("gy91setupOK"));
-  buzzergo(3);
-  setup_iridium();//Serial.println(F("iridiumsetupOK"));
-  buzzergo(4);
+  setup_bt();
   delay(1000);
-
-  digitalWrite(led, HIGH); //當開始運作，led燈亮
-  gpswork();
-  buzzergo(5);
-  gy91work();
-  buzzergo(6);//結束，準備send
-  send_data_gy91();
-  send_data_gps();
-  //send_data_PowerControl();
-  queueToText();
-  delay(2000);
-  reset_alarm();
-  turn_off(); //移至IridiumSend
+  setup_gps();
+  setup_gy91();
+  
 }
 
 void loop() {
+  digitalWrite(led, HIGH); //當開始運作，led燈亮
+  //buzzergo(3);
+  blueled_work(3);
+  gpswork();
+ // buzzergo(4);
+ blueled_work(4);
+  gy91work();
+  //buzzergo(5);
+  blueled_work(5);
+  send_data_gy91();
+  send_data_gps();
+  //send_data_PowerControl();
+  delay(2000);
+  //buzzer02();
+  blueled_work(6);
+  reset_alarm();  
+  turn_off();
+  digitalWrite(led, LOW);
+  delay(5000);
 }
