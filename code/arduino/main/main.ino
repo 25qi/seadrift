@@ -7,8 +7,8 @@
 #include <SoftwareSerial.h> //hc05藍牙和GPS模組
 #include <TinyGPS++.h>//GPS模組
 TinyGPSPlus gps;
-SoftwareSerial BT(10, 11); //hc05藍牙，Pin10為RX，接HC05的TXD；Pin11為TX，接HC05的RXD
-SoftwareSerial GPS(3, 4);//GPS模組，Pin3為RX，接GPS的TXD；Pin4為TX，接GPS的RXD
+SoftwareSerial BTss(10, 11); //hc05藍牙，Pin10為RX，接HC05的TXD；Pin11為TX，接HC05的RXD
+SoftwareSerial GPSss(3, 4);//GPS模組，Pin3為RX，接GPS的TXD；Pin4為TX，接GPS的RXD
 
 int led = LED_BUILTIN;  // 用內建LED燈
 DS3232RTC rtc; //宣告RTC
@@ -38,8 +38,8 @@ void TCA9548A(uint8_t bus) { //調整MUX現在要處理誰的函式
 void setup() {
   delay(2000); //預留時間，等待開機電源供應穩定
   Serial.begin(115200);
-  BT.begin(115200);BT.listen();//hc05藍牙啟動
-  GPS.begin(9600);GPS.listen();//GPS模組啟動
+  BTss.begin(115200);BTss.listen();//hc05藍牙啟動
+  GPSss.begin(9600);GPSss.listen();//GPS模組啟動
   Wire.begin();
   
   TCA9548A(1);//切換至LCD
@@ -48,12 +48,12 @@ void setup() {
   lcd.setCursor(1, 0); //從第一行第0個格子開始
   lcd.print("Hello World!");
   Serial.println("Hello World");
-  BT.println("Hello World");
+  BTss.println("Hello World");
   delay(1000);
   lcd.clear();
   lcd.print("Initializing...");
   Serial.println("Initializing...");
-  BT.println("Initializing");
+  BTss.println("Initializing");
   
   TCA9548A(0);//切換至GY86
   mpu.setI2CMasterModeEnabled(false);
@@ -63,7 +63,7 @@ void setup() {
   mag.initialize();
   Serial.println(mpu.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
   Serial.println(mag.testConnection() ? "HMC5883L connection successful" : "HMC5883L connection failed");
-  BT.println(mag.testConnection() ? "HMC5883L connection successful" : "HMC5883L connection failed");
+  BTss.println(mag.testConnection() ? "HMC5883L connection successful" : "HMC5883L connection failed");
   pinMode(led, OUTPUT); //設定led的腳為輸出
 }
 
@@ -75,15 +75,22 @@ void loop() {
   lcd.clear();
   lcd.print("Working");
   Serial.println("Working");
-  BT.println("Working");
+  BTss.println("Working");
 
   TCA9548A(0);//切換至GY86
   mag.getHeading(&mx, &my, &mz);
   gyprintResults();
   delay(90000);//延遲一下!讓gps抓訊號
   TCA9548A(1);lcd.init();lcd.clear(); //切換回lcd且GPS開始抓資料
-  GPSgetInfo();
-  GPSprintResults();
+
+    while (GPSss.available() > 0){
+    if (gps.encode(GPSss.read())){
+      GPSgetInfo();
+      GPSprintResults();
+    }
+  }
+  
+  
  
   TCA9548A(1); //切換回lcd
   lcd.init();
@@ -92,7 +99,7 @@ void loop() {
   lcd.setCursor(6, 1);
   lcd.print("to sleep");
   Serial.println("It's time to sleep");
-  BT.println("It's time to sleep");
+  BTss.println("It's time to sleep");
 
   TCA9548A(2);//切換至RTC
   delay(1000);
@@ -104,7 +111,7 @@ void reset_alarm() { //起床鬧鐘
   lcd.clear();
   lcd.print("reset alarm 7 sec");
   Serial.println("reset alarm 7 sec");
-  BT.println("reset alarm 7 sec");
+  BTss.println("reset alarm 7 sec");
 
   TCA9548A(2);//RTC
   Wire.beginTransmission(0x68);
@@ -133,12 +140,12 @@ void gyprintResults() {
   lcd.print(heading);
   Serial.print("Heading °:");
   Serial.println(heading);
-  BT.print("Heading:");BT.println(heading);
+  BTss.print("Heading:");BTss.println(heading);
 }
 
 
 void GPSgetInfo(){
-  GPS.listen();
+  GPSss.listen();
   if (gps.location.isValid()){
     gpsData.latitude = gps.location.lat();
     gpsData.longitude = gps.location.lng();
@@ -177,12 +184,12 @@ void GPSprintResults(){
   lcd.print(gpsData.time);
   lcd.println();
 
-  BT.listen();
-  BT.print("Location: ");
-  BT.print(gpsData.latitude, 6); Serial.print(", "); Serial.print(gpsData.longitude, 6);
-  BT.print("  Date: ");
-  BT.print(gpsData.date);
-  BT.print("  Time: ");
-  BT.print(gpsData.time);
-  BT.println();
+  BTss.listen();
+  BTss.print("Location: ");
+  BTss.print(gpsData.latitude, 6); Serial.print(", "); Serial.print(gpsData.longitude, 6);
+  BTss.print("  Date: ");
+  BTss.print(gpsData.date);
+  BTss.print("  Time: ");
+  BTss.print(gpsData.time);
+  BTss.println();
 }
