@@ -45,7 +45,7 @@ void setup() {
   Serial.println(mag.testConnection() ? "HMC5883L connection successful" : "HMC5883L connection failed");
   pinMode(led, OUTPUT); //設定led的腳為輸出
 }
-
+\
 void loop() {
   digitalWrite(led, HIGH); //當開始運作，led燈亮
   TCA9548A(1); //切換至lcd
