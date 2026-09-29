@@ -1,16 +1,19 @@
-PImage img;
+String[] lines;
+int index = 0;
 
 void setup() {
-  size(400,600);
-}  
 
+
+
+}
 
 void draw() {
-  img = loadImage("01.jpg");
-  image(img, 0, 0);
-  
+  lines = loadStrings("list.txt");
+println("there are " + lines.length + " lines");
+for (int i = 0 ; i < lines.length; i++) {
+  println(lines[i]);
+}
 }
 void reset(){
-img = loadImage("01.jpg");
-image(img, 0, 0);
+lines = loadStrings("list.txt"); //<>//
 }
