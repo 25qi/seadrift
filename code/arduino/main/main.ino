@@ -40,7 +40,7 @@ void setup() {
   //send_data_PowerControl();
   Serial.println(F("queueToText"));queueToText();
   delay(2000);
-  Serial.println(F("reset alarm"));reset_alarm();
+  //Serial.println(F("reset alarm"));reset_alarm();
   Serial.println(F("ready to turn off"));turn_off(); //移至IridiumSend
 
 }
