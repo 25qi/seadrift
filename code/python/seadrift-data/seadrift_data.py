@@ -23,7 +23,7 @@ def addzero(ori):
 def decoder(oridata, timedata):
     #data = open("C:\\Users\\User\\Desktop\\sea_drift_data.txt", 'w+')
     data = open(
-        "\\home\\pi\\Desktop\\p5js220822showtestdot\\data\\list.txt", 'w')
+        "list.txt", 'w')
     #data = open("\\home\\pi\\Desktopp5js220822showtestdot/data/list.txt", 'w+')
 
     newtimedata = timedata[0:10]+' '+timedata[11:13]+':' + \
