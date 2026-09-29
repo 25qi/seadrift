@@ -28,7 +28,7 @@ void iridiumsend()
 {
 int err;
   Serial.println(F("Trying to send the message..."));
-  err = modem.sendSBDBinary(buf, 50);
+  err = modem.sendSBDBinary(buf, 30);
   if (err != ISBD_SUCCESS)
   {   Serial.println("ISBDNOTSUCCESS");buzzergo(5);
     if (err == ISBD_SENDRECEIVE_TIMEOUT){Serial.println(F("IridiumTimeout"));}

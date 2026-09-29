@@ -21,10 +21,13 @@ void setup() {
   //setup_powerControl();
   Wire.begin();//Serial.println(F("wireOK"));
   delay(1000);
-  buzzergo(3);//gps開始
+  buzzergo(1);//gps開始
   setup_gps();//Serial.println(F("gpssetupOK"));
+  buzzergo(2);
   setup_gy91();//Serial.println(F("gy91setupOK"));
+  buzzergo(3);
   setup_iridium();//Serial.println(F("iridiumsetupOK"));
+  buzzergo(4);
   delay(1000);
 
   digitalWrite(led, HIGH); //當開始運作，led燈亮
