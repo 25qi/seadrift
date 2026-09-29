@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
 import imaplib
 import email
 from email.header import decode_header
@@ -168,7 +174,10 @@ def work():
                 if isinstance(From, bytes):
                     From = From.decode(encoding)
                 #print("Subject:", subject)
-                #print("From:", From)
+                print("From:", From)
+                if os.getenv("ROCKBLOCK_IMEI", "") not in From:
+                    print("Not Rockblock mail.")
+                    return
                 # if the email message is multipart
                 if msg.is_multipart():
                     # iterate over email parts
