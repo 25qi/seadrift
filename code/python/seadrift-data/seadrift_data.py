@@ -1,20 +1,16 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 import imaplib
 import email
 from email.header import decode_header
 import webbrowser
 import os
-import schedule  
-import time 
+import schedule
+import time
+
 
 def clean(text):
     # clean text for creating a folder
     return "".join(c if c.isalnum() else "_" for c in text)
+
 
 def addzero(ori):
     new = str()
@@ -23,118 +19,120 @@ def addzero(ori):
     new += ori
     return new
 
+
 def decoder(oridata):
-    data=open("C:\\Users\\Nelson\\Desktop\\sea_drift_data.txt",'w+')
-    
+    data = open("C:\\Users\\User\\Desktop\\sea_drift_data.txt", 'w+')
+
     full = str()
-    
+
     for i in range(50):
-        temp = bin(int(oridata[2*i:2*(i+1)],16))
+        temp = bin(int(oridata[2*i:2*(i+1)], 16))
         full += addzero(temp[2:])
-        #print(full)
-    
+        # print(full)
+
     if full[0] == '0':
-        accx = int(full[1:10],2) / 100
+        accx = int(full[1:10], 2) / 100
     else:
-        accx = int(full[1:10],2) / 100 * -1
-        
+        accx = int(full[1:10], 2) / 100 * -1
+
     if full[10] == '0':
-        accy = int(full[11:20],2) / 100
+        accy = int(full[11:20], 2) / 100
     else:
-        accy = int(full[11:20],2) /100 * -1
-        
+        accy = int(full[11:20], 2) / 100 * -1
+
     if full[20] == '0':
-        accz = int(full[21:30],2) / 100
+        accz = int(full[21:30], 2) / 100
     else:
-        accz = int(full[21:30],2) / 100 * -1
-    
-    print(accx,file=data)
-    print(accy,file=data)
-    print(accz,file=data)
-    print(accx,accy,accz)
-    
+        accz = int(full[21:30], 2) / 100 * -1
+
+    print(accx, file=data)
+    print(accy, file=data)
+    print(accz, file=data)
+    print(accx, accy, accz)
+
     if full[30] == '0':
-        gyrox = int(full[31:47],2) / 100
+        gyrox = int(full[31:47], 2) / 100
     else:
-        gyrox = int(full[31:47],2) / 100 * -1
-        
+        gyrox = int(full[31:47], 2) / 100 * -1
+
     if full[47] == '0':
-        gyroy = int(full[48:64],2) / 100
+        gyroy = int(full[48:64], 2) / 100
     else:
-        gyroy = int(full[48:64],2) / 100 * -1
-        
+        gyroy = int(full[48:64], 2) / 100 * -1
+
     if full[64] == '0':
-        gyroz = int(full[65:81],2) / 100
+        gyroz = int(full[65:81], 2) / 100
     else:
-        gyroz = int(full[65:81],2) / 100 * -1
-        
-    print(gyrox,file=data)
-    print(gyroy,file=data)
-    print(gyroz,file=data)
-    print(gyrox,gyroy,gyroz)
-    
+        gyroz = int(full[65:81], 2) / 100 * -1
+
+    print(gyrox, file=data)
+    print(gyroy, file=data)
+    print(gyroz, file=data)
+    print(gyrox, gyroy, gyroz)
+
     if full[81] == '0':
-        pressure = int(full[82:106],2) / 100
+        pressure = int(full[82:106], 2) / 100
     else:
-        pressure = int(full[82:106],2) / 100 * -1
-    
-    print(pressure,file=data)
+        pressure = int(full[82:106], 2) / 100 * -1
+
+    print(pressure, file=data)
     print(pressure)
-    
+
     if full[106] == '0':
-        temper = int(full[107:120],2) / 100
+        temper = int(full[107:120], 2) / 100
     else:
-        temper = int(full[107:120],2) / 100 * -1
-    
-    print(temper,file=data)
+        temper = int(full[107:120], 2) / 100 * -1
+
+    print(temper, file=data)
     print(temper)
-    
+
     if full[120] == '0':
-        height = int(full[121:138],2) / 100
+        height = int(full[121:138], 2) / 100
     else:
-        height = int(full[121:138],2) / 100 * -1
-        
-    print(height,file=data)
+        height = int(full[121:138], 2) / 100 * -1
+
+    print(height, file=data)
     print(height)
-    
+
     if full[138] == '0':
-        wave_height = int(full[139:156],2) / 100
+        wave_height = int(full[139:156], 2) / 100
     else:
-        wave_height = int(full[139:156],2) / 100 * -1
-        
-    print(wave_height,file=data)
+        wave_height = int(full[139:156], 2) / 100 * -1
+
+    print(wave_height, file=data)
     print(wave_height)
-    
+
     if full[156] == '0':
-        longitute = int(full[157:185],2) / 1000000
+        longitute = int(full[157:185], 2) / 1000000
     else:
-        longitute = int(full[157:185],2) / 1000000 * -1
-    
-    print(longitute,file=data)
+        longitute = int(full[157:185], 2) / 1000000 * -1
+
+    print(longitute, file=data)
     print(longitute)
-    
+
     if full[185] == '0':
-        latitute = int(full[186:213],2) / 1000000
+        latitute = int(full[186:213], 2) / 1000000
     else:
-        latitute = int(full[186:213],2) / 1000000 * -1
-    
-    print(latitute,file=data)
+        latitute = int(full[186:213], 2) / 1000000 * -1
+
+    print(latitute, file=data)
     print(latitute)
     data.close()
-    
+
     return
-    
+
+
 def work():
     # account credentials
-    username = os.getenv("SEADRIFT_ALT_EMAIL_USER")
-    password = os.getenv("SEADRIFT_ALT_EMAIL_PASSWORD")
+    username = os.getenv("SEADRIFT_EMAIL_USER")
+    password = os.getenv("SEADRIFT_EMAIL_PASSWORD")
     # use your email provider's IMAP server, you can look for your provider's IMAP server on Google
     # or check this page: https://www.systoolsgroup.com/imap/
     # for office 365, it's this:
-    imap_server = "outlook.office365.com" #for office365 mailbox
-    #imap_server = "imap-mail.outlook.com" #for outlook mailbox
-    
-    # create an IMAP4 class with SSL 
+    imap_server = "imap-mail.outlook.com"  # for office365 mailbox
+    # imap_server = "imap-mail.outlook.com" #for outlook mailbox
+
+    # create an IMAP4 class with SSL
     imap = imaplib.IMAP4_SSL(imap_server)
     # authenticate
     imap.login(username, password)
@@ -144,7 +142,7 @@ def work():
     N = 1
     # total number of emails
     messages = int(messages[0])
-    
+
     for i in range(messages, messages-N, -1):
         # fetch the email message by ID
         res, msg = imap.fetch(str(i), "(RFC822)")
@@ -162,15 +160,16 @@ def work():
                 From, encoding = decode_header(msg.get("From"))[0]
                 if isinstance(From, bytes):
                     From = From.decode(encoding)
-                print("Subject:", subject)
-                print("From:", From)
+                #print("Subject:", subject)
+                #print("From:", From)
                 # if the email message is multipart
                 if msg.is_multipart():
                     # iterate over email parts
                     for part in msg.walk():
                         # extract content type of email
                         content_type = part.get_content_type()
-                        content_disposition = str(part.get("Content-Disposition"))
+                        content_disposition = str(
+                            part.get("Content-Disposition"))
                         try:
                             # get the email body
                             body = part.get_payload(decode=True).decode()
@@ -181,13 +180,13 @@ def work():
                             print(body)
                             temp = body.split(':')
                             keydata = temp[-1][2:-2]
-                            print("The key data is:",end = '')
+                            print("The key data is:", end='')
                             print(keydata)
                             decoder(keydata)
                         elif "attachment" in content_disposition:
                             # download attachment
                             print('attachment')
-                            #We dont download in this project
+                            # We dont download in this project
 
     #                         filename = part.get_filename()
     #                         if filename:
@@ -220,21 +219,21 @@ def work():
                     # write the file
                     open(filepath, "w").write(body)
                     # open in the default browser
-                    #webbrowser.open(filepath) #we dont do this, too
+                    # webbrowser.open(filepath) #we dont do this, too
                 print("="*100)
     # close the connection and logout
     imap.close()
-    imap.logout() 
+    imap.logout()
     return
 
-schedule.every(1).minutes.do(work)  
-# schedule.every().hour.do(job)  
-# schedule.every().day.at("10:30").do(job)  
-# schedule.every().monday.do(job)  
-# schedule.every().wednesday.at("13:15").do(job)  
-  
-while True:  
+
+schedule.every(1).minutes.do(work)  # 改幾分鐘
+# schedule.every().hour.do(job)
+# schedule.every().day.at("10:30").do(job)
+# schedule.every().monday.do(job)
+# schedule.every().wednesday.at("13:15").do(job)
+
+while True:
     schedule.run_pending()
     print("Waiting...")
-    time.sleep(1)  
-
+    time.sleep(1)
