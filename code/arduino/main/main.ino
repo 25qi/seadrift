@@ -19,7 +19,7 @@ void setup() {
   //setup_powerControl();
   Wire.begin();
   delay(1000);
-  //setup_bt();
+  setup_bt();
   delay(1000);
   buzzer03();//gps開始
   setup_gps();
