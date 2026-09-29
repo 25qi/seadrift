@@ -12,9 +12,4 @@ void buzzergo(int times) {
   }
   noTone(7);
 }
-void buzzer02() {
-  //準備睡覺
-  tone(7, 587);
-  delay(1300);
-  noTone(7);
-}
+  

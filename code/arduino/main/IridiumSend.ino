@@ -37,9 +37,8 @@ int err;
   else
   {
     queue="";
-     Serial.println("SendSUCCESS");
     turn_off();
-   
+    Serial.println("SendSUCCESS");
   }
 }
 

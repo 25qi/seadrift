@@ -19,7 +19,7 @@ struct structgy91 {
 } gy91data;
 //////////////////////////////////////////////////////////////////////
 void setup_gy91() {
-  TCA9548A(1);//切換至GY91  
+  TCA9548A(1);//切換至GY91
   bmp280.initialize();
   bmp280.setEnabled(0);
   bmp280.triggerMeasurement();

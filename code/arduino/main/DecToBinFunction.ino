@@ -15,7 +15,7 @@ void queueToText(){
   String text=""; String bin=queue;String zeroorone;
   
   while(bin.length()%8!=0){bin+="0"; }
-  //Serial.print("bin已被擴寫為「");Serial.print(bin);Serial.println("」"); //這個註解掉才行
+  Serial.print("bin已被擴寫為「");Serial.print(bin);Serial.println("」");
 
   for(int counter=0;counter<(bin.length()/8);counter=counter+1){
     buf[counter]=0b11111111;
@@ -24,9 +24,9 @@ void queueToText(){
     zeroorone = bin.charAt((counter+1)*8+digit-9);
     bitWrite(buf[counter], 8-digit, zeroorone.toInt());}
     
-    //Serial.print("buf:");Serial.println(char(buf[counter])); //這個註解掉才行
+    Serial.print("buf:");Serial.println(char(buf[counter]));
   }
 //  Serial.print("傳送的內容為：");Serial.println(text);
 //  Serial.print("傳送的內容為：");Serial.println(buf);
-    //iridiumsend();
+//  iridiumsend();
   }
