@@ -38,11 +38,10 @@ void setup() {
   Serial.println(F("send data gy91"));send_data_gy91();
   Serial.println(F("send data gps"));send_data_gps();
   //send_data_PowerControl();
-//  Serial.println(F("queueToText"));
-  queueToText();
-//  delay(2000);
-//  Serial.println(F("reset alarm"));reset_alarm();
-//  Serial.println(F("ready to turn off"));turn_off(); //移至IridiumSend
+  Serial.println(F("queueToText"));queueToText();
+  delay(2000);
+  Serial.println(F("reset alarm"));reset_alarm();
+  Serial.println(F("ready to turn off"));turn_off(); //移至IridiumSend
 
 }
 
