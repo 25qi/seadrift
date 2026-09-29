@@ -1,103 +1,75 @@
+//沒有TCA9548A(1)及wave的版本，供衛星傳訊測試
+//https://forum.arduino.cc/t/unlocking-the-gy-91-mpu-9250-bmp-280/701895
+//原先的mx、my、mz(磁力計是錯的，需要回傳數值在本地計算heading)
 #include <Wire.h>
-#include <FaBo9Axis_MPU9250.h>
-#include "i2c.h"
+#include <FaBo9Axis_MPU9250.h> 
 #include "i2c_BMP280.h"
-
+#include "I2Cdev.h"
+//////////////////////////////////////////////////////////////////////
 BMP280 bmp280;
-FaBo9Axis fabo_9axis;
-
-void TCA9548A(uint8_t bus) { //調整MUX現在要處理誰的函式
-  Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
-  Wire.write(1 << bus);          // send byte to select bus
-  Wire.endTransmission();
-}
-
-void setup() {
-  Wire.begin();
-  Serial.begin(9600);
-  //TCA9548A(1);//切換至GY91
-  Serial.println("RESET");
-  Serial.println();
-
-    Serial.print("Probe BMP280: ");
-    if (bmp280.initialize()) Serial.println("Sensor found");
-    else
-    {
-        Serial.println("Sensor missing");
-        while (1) {}
-    }
-
-    // onetime-measure:
-    bmp280.setEnabled(0);
-    bmp280.triggerMeasurement();
-  Serial.println("configuring device.");
-
-  if (fabo_9axis.begin()) {
-    Serial.println("configured FaBo 9Axis I2C Brick");
-  } else {
-    Serial.println("device error");
-    while(1);
-  
-  }
-}
-
-void loop() {
-  float ax,ay,az;
-  float gx,gy,gz;
-  float mx,my,mz;
-  float temp;
-
-  fabo_9axis.readAccelXYZ(&ax,&ay,&az);
-  fabo_9axis.readGyroXYZ(&gx,&gy,&gz);
-  fabo_9axis.readMagnetXYZ(&mx,&my,&mz);
-  fabo_9axis.readTemperature(&temp);
-    bmp280.awaitMeasurement();
-
-  float temperature;
-  bmp280.getTemperature(temperature);
-
+FaBo9Axis mpu;
+//////////////////////////////////////////////////////////////////////
+struct structgy91 {
+  float ax, ay, az;
+  float gx, gy, gz;
+  float mx, my, mz;
+//  float temp;
+  float temperature1;
   float pascal;
-  bmp280.getPressure(pascal);
-
-  static float meters, metersold;
-  bmp280.getAltitude(meters);
-  metersold = (meters);
-
+  float meters1;
+  float max_height,min_height;
+} gy91data;
+//////////////////////////////////////////////////////////////////////
+void setup_gy91() {
+  
+  bmp280.initialize();
+  bmp280.setEnabled(0);
   bmp280.triggerMeasurement();
-    
-  Serial.print("AccX: ");
-  Serial.print(ax);
+  mpu.begin();
+  delay(1000);
+}
+//////////////////////////////////////////////////////////////////////
+void gy91work() {
+  mpu.readAccelXYZ(&gy91data.ax, &gy91data.ay, &gy91data.az);
+  mpu.readGyroXYZ(&gy91data.gx, &gy91data.gy, &gy91data.gz);
+  mpu.readMagnetXYZ(&gy91data.mx, &gy91data.my, &gy91data.mz);
+  bmp280.awaitMeasurement();
+  bmp280.getTemperature(gy91data.temperature1); 
+  bmp280.getPressure(gy91data.pascal);
+  bmp280.getAltitude(gy91data.meters1); 
+  bmp280.triggerMeasurement(); 
+  delay(1000);
+}
+//////////////////////////////////////////////////////////////////////
+void send_data_gy91(){
+    Serial.print("AccX: ");
+  Serial.print(gy91data.ax);
   Serial.print(" AccY: ");
-  Serial.print(ay);
+  Serial.print(gy91data.ay);
   Serial.print(" AccZ: ");
-  Serial.println(az);
+  Serial.println(gy91data.az);
 
   Serial.print("GyX: ");
-  Serial.print(gx);
+  Serial.print(gy91data.gx);
   Serial.print(" GyY: ");
-  Serial.print(gy);
+  Serial.print(gy91data.gy);
   Serial.print(" GyZ: ");
-  Serial.println(gz);
+  Serial.println(gy91data.gz);
 
   Serial.print("MagX: ");
-  Serial.print(mx);
+  Serial.print(gy91data.mx);
   Serial.print(" MagY: ");
-  Serial.print(my);
+  Serial.print(gy91data.my);
   Serial.print(" MagZ: ");
-  Serial.println(mz);
+  Serial.println(gy91data.mz);
 
-  Serial.print("Temp: ");
-  Serial.println(temp);
-
-  Serial.print(" HeightPT1: ");
-  Serial.print(metersold);
   Serial.print(" m; Height: ");
-  Serial.print(meters);
+  Serial.print(gy91data.meters1);
   Serial.print(" Pressure: ");
-  Serial.print(pascal);
+  Serial.print(gy91data.pascal,1);//保留小數點後1位
   Serial.print(" Pa; T: ");
-  Serial.print(temperature);
+  Serial.print(gy91data.temperature1);
   Serial.println(" C");
 
   delay(1000);
-}
+  }
