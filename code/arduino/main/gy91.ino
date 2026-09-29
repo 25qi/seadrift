@@ -64,28 +64,28 @@ void gy91work() {
 //////////////////////////////////////////////////////////////////////
 void send_data_gy91() {
   //Serial.print(F("AccX: "));
-  Serial.println(gy91data.ax);
+  Serial.println(gy91data.ax*1000);
   //Serial.print(F(" AccY: "));
-  Serial.println(gy91data.ay);
+  Serial.println(gy91data.ay*1000);
   //Serial.print(F(" AccZ: "));
-  Serial.println(gy91data.az);
+  Serial.println(gy91data.az*1000);
 
   //Serial.print(F("GyX: "));
-  Serial.println(gy91data.gx);
+  Serial.println(gy91data.gx*1000);
   //Serial.print(F(" GyY: "));
-  Serial.println(gy91data.gy);
+  Serial.println(gy91data.gy*1000);
   //Serial.print(F(" GyZ: "));
-  Serial.println(gy91data.gz);
+  Serial.println(gy91data.gz*1000);
 
   //Serial.print(F("Pressure: "));
-  Serial.println(gy91data.pascal);
+  Serial.println(gy91data.pascal*1000);
   //Serial.print(F(" Pa; T: "));
-  Serial.println(gy91data.temperature1);
+  Serial.println(gy91data.temperature1*1000);
   //Serial.println(F(" C"));
     //Serial.print(F("Height: "));
-  Serial.println(gy91data.meters2);
+  Serial.println(gy91data.meters2*1000);
   //Serial.print(F(" m; WaveHeight: "));
-  Serial.println(gy91data.wave_height);
+  Serial.println(gy91data.wave_height*1000);
   //Serial.println(" m");
   delay(1000);
 
