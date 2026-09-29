@@ -2,7 +2,7 @@ let bgc = 255;
 let cacheline;
 
 function preload() {
-  //line = loadStrings('data/list.txt');
+  // line = loadStrings('data/list.txt');
   //cacheline = line[0];
 }
 
@@ -39,12 +39,13 @@ function setup() {
     particles_a[i] = new Particle(loc_a, dir_a, consist); //最後一個參數決定線條的連續分散程度，越小越連續
     particles_b[i] = new Particle(loc_b, dir_b, consist);
     particles_c[i] = new Particle(loc_c, dir_c, consist);
+ 
   }
 }
 function draw() {
   loadStrings("data/list.txt", loadtext);
 
-  //background(20);
+  //background(0);
   //fill(bgc, 255, 255)
   textSize(0.0185 * windowWidth);
   textFont(myFont);
