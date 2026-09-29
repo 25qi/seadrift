@@ -15,7 +15,7 @@ void reset_alarm() { //起床鬧鐘
   //      0h 0m 0s
   setTime(0, 0, 0, 1, 1, 1970);
   rtc.set(now());
-  // set new alarm
+  // set new alar
   rtc.setAlarm(DS3232RTC::ALM1_MATCH_SECONDS, sleeptime, 0, 0, 1); //可以調整睡多久
   // clear old alarm flag - turning off system
 }

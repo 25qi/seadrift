@@ -1,7 +1,7 @@
 #include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 #include <SoftwareSerial.h>
 //#define DIAGNOSTICS false // Change this to see diagnostics
-SoftwareSerial IridiumSerial (D4,D5);
+SoftwareSerial IridiumSerial (4,5);
 IridiumSBD modem(IridiumSerial);
 
 void setup_iridium()

@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include "i2c.h"
 ///////////////////////////////////////////////////////////////////////
-int led = LED_BUILTIN;  // 內建LED燈
+int led = LED_BUILTIN;  // 用內建LED燈
 int blueled = 6;
 //////////////////////////////////////////////////////////////////////
 void TCA9548A(uint8_t bus) { //調整MUX現在要處理誰的函式
@@ -27,7 +27,7 @@ void setup() {
   setup_iridium();Serial.println(F("iridiumsetupOK"));
   delay(1000);
 
-  //digitalWrite(led, HIGH); //當開始運作，led燈亮
+  digitalWrite(led, HIGH); //當開始運作，led燈亮
   Serial.println(F("gpsStartWork"));gpswork();
   buzzergo(2);
   Serial.println(F("gy91startwork"));gy91work();
