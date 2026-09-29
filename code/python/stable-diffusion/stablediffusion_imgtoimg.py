@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import getpass, os
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Our host url should not be prepended with "https" nor should it have a trailing slash.
 os.environ['STABILITY_HOST'] = 'grpc.stability.ai:443'

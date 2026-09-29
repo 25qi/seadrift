@@ -9,8 +9,12 @@ import email
 from email.header import decode_header
 import webbrowser
 import os
-import schedule  
-import time 
+import schedule
+import time
+from dotenv import load_dotenv
+
+load_dotenv()
+OUTPUT_FILE = os.getenv("SEADRIFT_OUTPUT_FILE", "sea_drift_data.txt")
 
 def clean(text):
     # clean text for creating a folder
@@ -24,7 +28,7 @@ def addzero(ori):
     return new
 
 def decoder(oridata,timedata):
-    data=open("C:\\Users\\Nelson\\Desktop\\sea_drift_data.txt",'w+')
+    data=open(OUTPUT_FILE,'w+')
     
     newtimedata = timedata[0:10]+' '+timedata[11:13]+':'+timedata[13:15]+':'+timedata[15:17]+' '+timedata[19:22]
     print(newtimedata,file=data)
@@ -137,8 +141,6 @@ def work():
     # account credentials
     username = os.getenv("SEADRIFT_EMAIL_USER")
     password = os.getenv("SEADRIFT_EMAIL_PASSWORD")
-#     username = os.getenv("SEADRIFT_ALT_EMAIL_USER")
-#     password = os.getenv("SEADRIFT_ALT_EMAIL_PASSWORD")
 #     use your email provider's IMAP server, you can look for your provider's IMAP server on Google
 #     or check this page: https://www.systoolsgroup.com/imap/
 #     for office 365, it's this:
