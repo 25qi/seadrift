@@ -1,4 +1,4 @@
-unsigned long gpsworktime = 20000; //milseconds 000
+unsigned long gpsworktime = 360000; //milseconds 000
 #include <TinyGPS++.h>//GPS模組S
 #include <AltSoftSerial.h>
 TinyGPSPlus gps;
@@ -7,8 +7,8 @@ AltSoftSerial GPSss;//GPS模組，Pin8為RX，接GPS的TXD；Pin9為TX，接GPS�
 struct structgps {
   double latitude;
   double longitude;
-//  unsigned long gpsdate;
-//  unsigned long gpstime;
+    unsigned long gpsdate;
+    unsigned long gpstime;
 } gpsdata;
 //////////////////////////////////////////////////////////////////////
 void setup_gps() {
@@ -26,14 +26,17 @@ void gpswork() {
           gpsdata.latitude = gps.location.lat();
           gpsdata.longitude = gps.location.lng();
         }
+        if (gps.date.isValid() && gps.time.isValid()) {
+          gpsdata.gpstime = gps.time.value();
+          gpsdata.gpsdate = gps.date.value();
+        }
       }
     }
     delay(10);
 
     if ( gps.location.isValid()) {
-      blueled_work(1);
+      //blueled_work(1);
       if (gpsdata.latitude != 0) {
-        //這裡再看要怎麼寫
         break;
       }
     }
@@ -42,13 +45,13 @@ void gpswork() {
 }
 //////////////////////////////////////////////////////////////////////
 void send_data_gps() {
-  Serial.println(gpsdata.longitude, 6); 
+  Serial.println(gpsdata.longitude, 6);
   Serial.println(gpsdata.latitude, 6);
-//  Serial.print("Date: ");
-//  Serial.print(gpsdata.gpsdate);
-//  Serial.print("  Time: ");
-//  Serial.print(gpsdata.gpstime);
-  addToQueue(gpsdata.longitude*1000000, 29);//Serial.print("接下來發送latitude28");
-  addToQueue(gpsdata.latitude*1000000, 28);
+  //  Serial.print("Date: ");
+  //  Serial.print(gpsdata.gpsdate);
+  //  Serial.print("  Time: ");
+  //  Serial.print(gpsdata.gpstime);
+  addToQueue(gpsdata.longitude * 1000000, 29); //Serial.print("接下來發送latitude28");
+  addToQueue(gpsdata.latitude * 1000000, 28);
   delay(1000);
 }

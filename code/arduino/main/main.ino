@@ -1,4 +1,4 @@
-//0820修改的版本
+//成功！
 #include <Wire.h>
 #include "i2c.h"
 ///////////////////////////////////////////////////////////////////////
@@ -19,10 +19,7 @@ void setup() {
   pinMode(6, OUTPUT);
   Wire.begin();//Serial.println(F("wireOK"));
   delay(1000);
-}
 
-void loop() {
-  
   digitalWrite(led, HIGH);//當開始運作，led燈亮
   blueled_work(1);//gps開始
   setup_gps();//Serial.println(F("gpssetupOK"));
@@ -31,9 +28,14 @@ void loop() {
   blueled_work(3);
   setup_iridium();//Serial.println(F("iridiumsetupOK"));
   blueled_work(4);
+}
+
+void loop() {
   delay(1000);
-  
-  Serial.println(F("gpsStartWork"));gpswork();
+  blueled_work(1);
+  digitalWrite(led, HIGH);//當開始運作，led燈亮
+  //Serial.println(F("gpsStartWork"));
+  gpswork();
   blueled_work(2);
   Serial.println(F("gy91startwork"));gy91work();
   blueled_work(3);//結束，準備send
@@ -45,5 +47,5 @@ void loop() {
 
   Serial.println(F("ready to rest"));
   digitalWrite(led, LOW);
-  delay(10000);
+  delay(20000);
 }
