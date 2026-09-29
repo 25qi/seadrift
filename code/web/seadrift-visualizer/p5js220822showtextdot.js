@@ -7,7 +7,8 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  
+  createCanvas(displayWidth, displayHeight);
   myFont = loadFont('data/Anonymous_Pro_Minus.ttf');
   //pixelDensity(0.5);
   
@@ -86,4 +87,10 @@ function loadtext(result) {
   //if(result!=line){changed();}
   line=result;
   
+}
+function mousePressed() {
+  if (mouseX > 0 && mouseX < (windowWidth) && mouseY > 0 && mouseY < (windowHeight)) {
+    let fs = fullscreen();
+    fullscreen(!fs);
+  }
 }
