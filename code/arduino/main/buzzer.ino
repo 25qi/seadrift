@@ -45,32 +45,32 @@ void buzzer03() {
 
 void buzzer04() {
   //衛星成功
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   noTone(buzzer);
   }
 void buzzer05() {
   //衛星失敗
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   delay(300);
-  tone(buzzer, melody[2]);
+  tone(buzzer, melody[7]);
   noTone(buzzer);
   }
 

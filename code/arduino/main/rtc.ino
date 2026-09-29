@@ -1,4 +1,4 @@
-int sleeptime = 7; //seconds
+int sleeptime = 5; //seconds
 #include <DS3232RTC.h> //RTC's lib
 //////////////////////////////////////////////////////////////////////
 DS3232RTC rtc; //宣告RTC
