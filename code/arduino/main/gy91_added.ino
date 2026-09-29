@@ -1,4 +1,4 @@
-//原本那個女生的code，計算heading 
+//原本那個女生的code，計算heading，但這個必須在本地計算
 //https://create.arduino.cc/projecthub/t3chflicks/smart-buoy-making-wave-and-temperature-measurements-257ca1
 //#include "Wire.h"
 //#include "I2Cdev.h" 

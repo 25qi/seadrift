@@ -1,4 +1,5 @@
-int gpsworktime = 10000; //milseconds 000
+unsigned long gpstime= 5000; //milseconds 000
+//注意資料型別！
 #include <TinyGPS++.h>//GPS模組S
 #include <AltSoftSerial.h>
 TinyGPSPlus gps;
@@ -10,8 +11,6 @@ struct structgps {
   unsigned long gpsdate;
   unsigned long gpstime;
 } gpsdata;
-
-
 //////////////////////////////////////////////////////////////////////
 void setup_gps() {
   GPSss.begin(9600);
@@ -21,8 +20,12 @@ void setup_gps() {
 void gpswork() {
   unsigned long start_time = millis();
   // try for 250 seconds and break if all is valid early
-  while ( millis() - start_time < gpsworktime ) {
-    while (GPSss.available() > 0) {
+  while ( (millis() - start_time) < gpstime ) {
+    //Serial.println( (millis() - start_time) < 60000 );
+    //Serial.println((millis() - start_time));
+    //types(millis());
+    //types(millis() - start_time);
+    while (GPSss.available() > 0){
       if (gps.encode(GPSss.read())) {
         if (gps.location.isValid()) {
           gpsdata.latitude = gps.location.lat();
@@ -39,6 +42,7 @@ void gpswork() {
     if ( gps.location.isValid() && gps.date.isValid() && gps.time.isValid()) {
       work_blueled();
       if (gpsdata.gpsdate != 0) {
+        //這裡再看要怎麼寫
         buzzer01();
         break;
       }
@@ -49,12 +53,26 @@ void gpswork() {
 //////////////////////////////////////////////////////////////////////
 void send_data_gps() {
   Serial.print("Location: ");
-  Serial.print(gpsdata.latitude, 6); Serial.print(", "); Serial.print(gpsdata.longitude, 6);
-  Serial.print("  Date: ");
+  Serial.print(gpsdata.latitude, 6); 
+  Serial.print(", "); 
+  Serial.println(gpsdata.longitude, 6);
+  Serial.print("Date: ");
   Serial.print(gpsdata.gpsdate);
   Serial.print("  Time: ");
   Serial.print(gpsdata.gpstime);
   Serial.println();
-
   delay(1000);
+}
+
+void types(int x){
+  Serial.println("int");
+}
+void types(float x){
+  Serial.println("float");
+}
+void types(long x){
+  Serial.println("long");
+}
+void types(unsigned long x){
+  Serial.println("unsigned long");
 }
