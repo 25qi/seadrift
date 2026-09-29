@@ -7,6 +7,7 @@ void addToQueue(long decnum, int digit){
   while(bin.length()<digit-1){bin=String("0"+bin);
 //  Serial.println(bin.length());
   } //補0直到指定位數
+  Serial.print(decnum);Serial.print("轉為二進位數字為");Serial.println(bin);
   if(decnum<0){bin=String("1"+bin);}else{bin=String("0"+bin);} //負則開頭為1，正則開頭為0
   queue = queue + bin; 
 //  Serial.print(F("傳送序列已增加「"));Serial.print(bin);Serial.println("」"); 
@@ -21,8 +22,8 @@ void addToQueue(long decnum, int digit){
         bitWrite(buf[emptybuf], digit-1, zeroorone.toInt());//從左到右寫入，7到0（digit是8到1）
         queue.remove(0,1);
         }
-//    Serial.print(F("buf"));Serial.print(emptybuf);Serial.print(F("已新增為"));Serial.println(buf[emptybuf]);
-//    Serial.print("傳送序列現在為「");Serial.print(queue);Serial.println("」");
+    Serial.print(F("buf"));Serial.print(emptybuf);Serial.print(F("已新增為"));Serial.println(buf[emptybuf]);
+    Serial.print("傳送序列現在為「");Serial.print(queue);Serial.println("」");
     emptybuf+=1;
 //    counter+=1; }
   }
@@ -41,12 +42,12 @@ void queueToText(){
       zeroorone = bin.charAt(counter*8+digit-1);
       bitWrite(buf[emptybuf], 8-digit, zeroorone.toInt());
     }
-//    Serial.print(F("buf"));Serial.print(emptybuf);Serial.print(F("已新增為"));Serial.println(buf[emptybuf]);
-//    Serial.print(F("傳送序列現在為「"));Serial.print(queue);Serial.println("」");
+    Serial.print(F("buf"));Serial.print(emptybuf);Serial.print(F("已新增為"));Serial.println(buf[emptybuf]);
+    Serial.print(F("傳送序列現在為「"));Serial.print(queue);Serial.println("」");
     emptybuf+=1;
 //    Serial.print("buf:");Serial.println(char(buf[counter]));
   }
 //  Serial.print(F("傳送的內容為："));Serial.println(text);
 //  Serial.print(F("傳送的內容為："));Serial.println(buf);
-  iridiumsend();
+  iridiumsend();emptybuf=0;
   }
