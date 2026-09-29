@@ -19,11 +19,14 @@ void setup() {
   //setup_powerControl();
   Wire.begin();
   delay(1000);
-  setup_bt();
+  //setup_bt();
   delay(1000);
   buzzer03();//gps開始
   setup_gps();
   setup_gy91();
+  setup_iridium();
+  delay(1000);
+
 }
 
 void loop() {
@@ -37,5 +40,5 @@ void loop() {
   send_data_gps();
   //send_data_PowerControl();
   delay(2000);
-  turn_off();
+  turn_off(); //已經移至IridiumSend
 }
