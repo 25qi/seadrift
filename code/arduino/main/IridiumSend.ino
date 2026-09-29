@@ -1,7 +1,7 @@
 #include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 #include <SoftwareSerial.h>
 //#define DIAGNOSTICS false // Change this to see diagnostics
-SoftwareSerial IridiumSerial (4,5);
+SoftwareSerial IridiumSerial (D4,D5);
 IridiumSBD modem(IridiumSerial);
 
 void setup_iridium()
@@ -31,14 +31,14 @@ int err;
   err = modem.sendSBDBinary(buf, 50);
   if (err != ISBD_SUCCESS)
   {   Serial.println("ISBDNOTSUCCESS");
-    if (err == ISBD_SENDRECEIVE_TIMEOUT){Serial.println("IridiumTimeout");}
+    if (err == ISBD_SENDRECEIVE_TIMEOUT){Serial.println(F("IridiumTimeout"));}
   }
 
   else
   {
     queue="";
     turn_off();
-    Serial.println("SendSUCCESS");
+    Serial.println(F("SendSUCCESS"));
   }
 }
 

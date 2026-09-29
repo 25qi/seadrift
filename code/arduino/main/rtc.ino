@@ -5,6 +5,7 @@ DS3232RTC rtc; //宣告RTC
 //////////////////////////////////////////////////////////////////////
 void reset_alarm() { //起床鬧鐘
   //sleeptime =get_wait_time_from_voltage();
+  Serial.println(F("0"));
   TCA9548A(0);//RTC
   Wire.beginTransmission(0x68);
   Wire.write(1 << 6);
@@ -14,7 +15,7 @@ void reset_alarm() { //起床鬧鐘
   //      0h 0m 0s
   setTime(0, 0, 0, 1, 1, 1970);
   rtc.set(now());
-  // set new alar
+  // set new alarm
   rtc.setAlarm(DS3232RTC::ALM1_MATCH_SECONDS, sleeptime, 0, 0, 1); //可以調整睡多久
   // clear old alarm flag - turning off system
 }

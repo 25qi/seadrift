@@ -48,15 +48,14 @@ void gpswork() {
 //////////////////////////////////////////////////////////////////////
 void send_data_gps() {
   Serial.print("Location: ");
-  Serial.print(gpsdata.latitude, 6); 
+  Serial.print(gpsdata.longitude, 6); 
   Serial.print(", "); 
-  Serial.println(gpsdata.longitude, 6);
+  Serial.println(gpsdata.latitude, 6);
 //  Serial.print("Date: ");
 //  Serial.print(gpsdata.gpsdate);
 //  Serial.print("  Time: ");
 //  Serial.print(gpsdata.gpstime);
-
-  addToQueue(gpsdata.latitude*100, 29);
-  addToQueue(gpsdata.longitude*100, 29);
+  addToQueue(gpsdata.longitude*1000000, 29);//Serial.print("接下來發送latitude28");
+  addToQueue(gpsdata.latitude*1000000, 28);
   delay(1000);
 }

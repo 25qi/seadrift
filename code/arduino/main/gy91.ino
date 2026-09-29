@@ -63,46 +63,46 @@ void gy91work() {
 }
 //////////////////////////////////////////////////////////////////////
 void send_data_gy91() {
-  Serial.print("AccX: ");
+  Serial.print(F("AccX: "));
   Serial.print(gy91data.ax);
-  Serial.print(" AccY: ");
+  Serial.print(F(" AccY: "));
   Serial.print(gy91data.ay);
-  Serial.print(" AccZ: ");
+  Serial.print(F(" AccZ: "));
   Serial.println(gy91data.az);
 
-  Serial.print("GyX: ");
+  Serial.print(F("GyX: "));
   Serial.print(gy91data.gx);
-  Serial.print(" GyY: ");
+  Serial.print(F(" GyY: "));
   Serial.print(gy91data.gy);
-  Serial.print(" GyZ: ");
+  Serial.print(F(" GyZ: "));
   Serial.println(gy91data.gz);
 
   //  Serial.print("Temp: ");
   //  Serial.println(gy91data.temp);
 
-  Serial.print("Height: ");
+  Serial.print(F("Height: "));
   Serial.print(gy91data.meters2);
-  Serial.print(" m; WaveHeight: ");
+  Serial.print(F(" m; WaveHeight: "));
   Serial.print(gy91data.wave_height);
   Serial.println(" m");
   
-  Serial.print("Pressure: ");
+  Serial.print(F("Pressure: "));
   Serial.print(gy91data.pascal);
-  Serial.print(" Pa; T: ");
+  Serial.print(F(" Pa; T: "));
   Serial.print(gy91data.temperature1);
-  Serial.println(" C");
+  Serial.println(F(" C"));
   delay(1000);
 
   addToQueue(gy91data.ax*100, 10);//Serial.println(gy91data.ax*100);
   addToQueue(gy91data.ay*100, 10);//Serial.println(gy91data.ay*100);
   addToQueue(gy91data.az*100, 10);//Serial.println(gy91data.az*100);
 
-  addToQueue(gy91data.gx*100, 10);
-  addToQueue(gy91data.gy*100, 10);
-  addToQueue(gy91data.gz*100, 10);
+  addToQueue(gy91data.gx*100, 17);
+  addToQueue(gy91data.gy*100, 17);
+  addToQueue(gy91data.gz*100, 17);
 
-  addToQueue(gy91data.meters2*10, 17); 
+  addToQueue(gy91data.pascal*10, 21);
+  addToQueue(gy91data.temperature1*100, 14); 
   addToQueue(gy91data.meters1*100, 18);
-  addToQueue(gy91data.pascal*10, 17); 
-  addToQueue(gy91data.wave_height*100, 28); 
+  addToQueue(gy91data.wave_height*100, 18); 
 }
