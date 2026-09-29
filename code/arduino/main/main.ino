@@ -1,4 +1,4 @@
-//成功！
+//0830修改的版本
 #include <Wire.h>
 #include "i2c.h"
 ///////////////////////////////////////////////////////////////////////
@@ -34,8 +34,7 @@ void loop() {
   delay(1000);
   blueled_work(1);
   digitalWrite(led, HIGH);//當開始運作，led燈亮
-  //Serial.println(F("gpsStartWork"));
-  gpswork();
+  Serial.println(F("gpsStartWork"));gpswork();
   blueled_work(2);
   Serial.println(F("gy91startwork"));gy91work();
   blueled_work(3);//結束，準備send
@@ -47,5 +46,5 @@ void loop() {
 
   Serial.println(F("ready to rest"));
   digitalWrite(led, LOW);
-  delay(20000);
+  delay(1800000);
 }

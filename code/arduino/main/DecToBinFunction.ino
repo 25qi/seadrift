@@ -13,7 +13,7 @@ void addToQueue(long decnum, int digit){
   //Serial.print(F("傳送序列現在為「"));Serial.print(queue);Serial.println("」");
    
   while(queue.length()>7){
-   //    for(int counter=0;queue.length()>7;counter+=1){
+//    for(int counter=0;queue.length()>7;counter+=1){
     buf[emptybuf]=0b00000000;
       for(int digit=8;digit>0;digit-=1){
         String zeroorone;
