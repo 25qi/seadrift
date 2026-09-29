@@ -1,22 +1,23 @@
 #include <DS3232RTC.h> //RTC's lib
 #include <Wire.h>
 #include "I2Cdev.h" //   
-#include "MPU6050.h" //  
-#include "HMC5883L.h" // 
-#include <LiquidCrystal_I2C.h> 
+//#include <LiquidCrystal_I2C.h> 
+#include <FaBo9Axis_MPU9250.h>
+#include "i2c.h"
+#include "i2c_BMP280.h"
 
 //lcd's lib 
- //hc05藍牙和GPS模組
+#include <SoftwareSerial.h> //hc05藍牙和GPS模組
 #include <TinyGPS++.h>//GPS模組
 TinyGPSPlus gps;
-//SoftwareSerial BTss(10, 11); //hc05藍牙，Pin10為RX，接HC05的TXD；Pin11為TX，接HC05的RXD
-//SoftwareSerial GPSss(3, 4);//GPS模組，Pin3為RX，接GPS的TXD；Pin4為TX，接GPS的RXD
+//SoftwareSerial BTss(10, 11); //hc05藍牙，Pin10為RX，接HC05的TXD；Pin11為TX，接HC05的RXD 
+SoftwareSerial GPSss(3, 4);//GPS模組，Pin3為RX，接GPS的TXD；Pin4為TX，接GPS的RXD
 
 int led = LED_BUILTIN;  // 用內建LED燈
 DS3232RTC rtc; //宣告RTC
-LiquidCrystal_I2C lcd(0x27, 20, 4); //宣告LCD
-MPU6050 mpu; //宣告
-HMC5883L mag; //宣告
+//LiquidCrystal_I2C lcd(0x27, 20, 4); //宣告LCD
+BMP280 bmp280;
+FaBo9Axis fabo_9axis;
 
 int16_t mx, my, mz; //初始化Compass
 float declination = (-4.0 - (54.0 / 60.0)) * (PI / 180); //TAIPEI
@@ -44,47 +45,75 @@ void setup() {
   GPSss.begin(115200);GPSss.listen();//GPS模組啟動
   Wire.begin();
   
-  TCA9548A(1);//切換至LCD
-  lcd.init(); //初始化
-  lcd.backlight(); //背板發亮
-  lcd.setCursor(1, 0); //從第一行第0個格子開始
-  lcd.print("Hello World!");
+  //TCA9548A(1);//切換至LCD
+  //lcd.init(); //初始化
+  //lcd.backlight(); //背板發亮
+  //lcd.setCursor(1, 0); //從第一行第0個格子開始
+  //lcd.print("Hello World!");
   Serial.println("Hello World");
   //BTss.println("Hello World");
-  delay(1000);
-  lcd.clear();
-  lcd.print("Initializing...");
+  //delay(1000);
+  //lcd.clear();
+  //lcd.print("Initializing...");
   Serial.println("Initializing...");
   //BTss.println("Initializing");
   
-  TCA9548A(0);//切換至GY86
-  mpu.setI2CMasterModeEnabled(false);
-  mpu.setI2CBypassEnabled(true) ;
-  mpu.setSleepEnabled(false);
-  mpu.initialize();
-  mag.initialize();
-  Serial.println(mpu.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
-  Serial.println(mag.testConnection() ? "HMC5883L connection successful" : "HMC5883L connection failed");
-  //BTss.println(mag.testConnection() ? "HMC5883L connection successful" : "HMC5883L connection failed");
+//  TCA9548A(0);//切換至GY86
+//  mpu.setI2CMasterModeEnabled(false);
+//  mpu.setI2CBypassEnabled(true) ;
+//  mpu.setSleepEnabled(false);
+//  mpu.initialize();
+//  mag.initialize();
+//  Serial.println(mpu.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
+//  Serial.println(mag.testConnection() ? "HMC5883L connection successful" : "HMC5883L connection failed");
+//  //BTss.println(mag.testConnection() ? "HMC5883L connection successful" : "HMC5883L connection failed");
+
+    TCA9548A(0);//切換至GY91
+    Serial.print("Probe BMP280: ");
+    if (bmp280.initialize()) Serial.println("Sensor found");
+    else
+    {
+        Serial.println("Sensor missing");
+        while (1) {}
+    }
+
+    // onetime-measure:
+    bmp280.setEnabled(0);
+    bmp280.triggerMeasurement();
+  Serial.println("configuring device.");
+
+  if (fabo_9axis.begin()) {
+    Serial.println("configured FaBo 9Axis I2C Brick");
+  } else {
+    Serial.println("device error");
+    while(1);
+  
+  }  
+
+
+  
   pinMode(led, OUTPUT); //設定led的腳為輸出
 }
 
 void loop() {
-  digitalWrite(led, HIGH); //當開始運作，led燈亮
-  TCA9548A(1); //切換至lcd
-  lcd.init();
-  lcd.clear();
-  lcd.print("Working");
+  //digitalWrite(led, HIGH); //當開始運作，led燈亮
+  //TCA9548A(1); //切換至lcd
+  //lcd.init();
+  //lcd.clear();
+  //lcd.print("Working");
   Serial.println("Working");
   //BTss.println("Working");
 
-  TCA9548A(0);//切換至GY86
-  mag.getHeading(&mx, &my, &mz);
-  gyprintResults();
+//  TCA9548A(0);//切換至GY86
+//  mag.getHeading(&mx, &my, &mz);
+//  gyprintResults();
+
+  TCA9548A(0);//切換至GY91
+  GY91();
   
-  GPSss.listen();
+  //GPSss.listen();
   delay(10000);//延遲一下!讓gps抓訊號
-  TCA9548A(1);lcd.init();lcd.clear(); //切換回lcd且GPS開始抓資料
+  //TCA9548A(1);lcd.init();lcd.clear(); //切換回lcd且GPS開始抓資料
 
     while (GPSss.available() > 0){
     if (gps.encode(GPSss.read())){
@@ -95,12 +124,12 @@ void loop() {
   
   
  
-  TCA9548A(1); //切換回lcd
-  lcd.init();
-  lcd.clear();
-  lcd.print("It's time"); //做完事情，準備睡覺
-  lcd.setCursor(6, 1);
-  lcd.print("to sleep");
+  //TCA9548A(1); //切換回lcd
+  //lcd.init();
+  //lcd.clear();
+  //lcd.print("It's time"); //做完事情，準備睡覺
+  //lcd.setCursor(6, 1);
+  //lcd.print("to sleep");
   Serial.println("It's time to sleep");
   //BTss.println("It's time to sleep");
 
@@ -111,8 +140,8 @@ void loop() {
 
 void reset_alarm() { //起床鬧鐘
   TCA9548A(1); //切換至lcd
-  lcd.clear();
-  lcd.print("reset alarm 7 sec");
+  //lcd.clear();
+  //lcd.print("reset alarm 7 sec");
   Serial.println("reset alarm 7 sec");
   //BTss.println("reset alarm 7 sec");
 
@@ -132,19 +161,19 @@ void reset_alarm() { //起床鬧鐘
 
 }
 
-void gyprintResults() {
-  float heading = atan2(my, mx);
-  heading += declination;
-  if (heading < 0) heading += 2 * PI;
-  if (heading > 2 * PI) heading -= 2 * PI;
-  heading *= 180 / M_PI;
-  TCA9548A(1);
-  lcd.clear();
-  lcd.print(heading);
-  Serial.print("Heading:");
-  Serial.println(heading);
-  //BTss.print("Heading:");BTss.println(heading);
-}
+//void gyprintResults() {
+//  float heading = atan2(my, mx);
+//  heading += declination;
+//  if (heading < 0) heading += 2 * PI;
+//  if (heading > 2 * PI) heading -= 2 * PI;
+//  heading *= 180 / M_PI;
+//  TCA9548A(1);
+//  //lcd.clear();
+//  //lcd.print(heading);
+//  Serial.print("Heading:");
+//  Serial.println(heading);
+//  //BTss.print("Heading:");BTss.println(heading);
+//}
 
 
 void GPSgetInfo(){
@@ -179,13 +208,13 @@ void GPSprintResults(){
   Serial.print(gpsData.time);
   Serial.println();
 
-  lcd.print("Location: ");
-  lcd.print(gpsData.latitude, 6); Serial.print(", "); Serial.print(gpsData.longitude, 6);
-  lcd.print("  Date: ");
-  lcd.print(gpsData.date);
-  lcd.print("  Time: ");
-  lcd.print(gpsData.time);
-  lcd.println();
+  //lcd.print("Location: ");
+  //lcd.print(gpsData.latitude, 6); Serial.print(", "); Serial.print(gpsData.longitude, 6);
+  //lcd.print("  Date: ");
+  //lcd.print(gpsData.date);
+  //lcd.print("  Time: ");
+  //lcd.print(gpsData.time);
+  //lcd.println();
 
   //BTss.listen();
   //BTss.print("Location: ");
@@ -195,4 +224,66 @@ void GPSprintResults(){
   //BTss.print("  Time: ");
   //BTss.print(gpsData.time);
   //BTss.println();
+}
+
+void GY91(){
+     float ax,ay,az;
+  float gx,gy,gz;
+  float mx,my,mz;
+  float temp;
+
+  fabo_9axis.readAccelXYZ(&ax,&ay,&az);
+  fabo_9axis.readGyroXYZ(&gx,&gy,&gz);
+  fabo_9axis.readMagnetXYZ(&mx,&my,&mz);
+  fabo_9axis.readTemperature(&temp);
+    bmp280.awaitMeasurement();
+
+  float temperature;
+  bmp280.getTemperature(temperature);
+
+  float pascal;
+  bmp280.getPressure(pascal);
+
+  static float meters, metersold;
+  bmp280.getAltitude(meters);
+  metersold = (meters);
+
+  bmp280.triggerMeasurement();
+    
+  Serial.print("AccX: ");
+  Serial.print(ax);
+  Serial.print(" AccY: ");
+  Serial.print(ay);
+  Serial.print(" AccZ: ");
+  Serial.println(az);
+
+  Serial.print("GyX: ");
+  Serial.print(gx);
+  Serial.print(" GyY: ");
+  Serial.print(gy);
+  Serial.print(" GyZ: ");
+  Serial.println(gz);
+
+  Serial.print("MagX: ");
+  Serial.print(mx);
+  Serial.print(" MagY: ");
+  Serial.print(my);
+  Serial.print(" MagZ: ");
+  Serial.println(mz);
+
+  Serial.print("Temp: ");
+  Serial.println(temp);
+
+  Serial.print(" HeightPT1: ");
+  Serial.print(metersold);
+  Serial.print(" m; Height: ");
+  Serial.print(meters);
+  Serial.print(" Pressure: ");
+  Serial.print(pascal);
+  Serial.print(" Pa; T: ");
+  Serial.print(temperature);
+  Serial.println(" C");
+
+  delay(1000);
+ 
 }
