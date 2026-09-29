@@ -7,7 +7,6 @@ function preload(){
 }
 
 function setup() {
-  
   createCanvas(displayWidth, displayHeight);
   myFont = loadFont('data/Anonymous_Pro_Minus.ttf');
   //pixelDensity(0.5);
@@ -35,15 +34,17 @@ function draw() {
   
   //background(20);
   //fill(bgc, 255, 255)
-  textSize(0.02*windowWidth)
+  textSize(0.0185*windowWidth)
   textFont(myFont);
-  text('acceleration: '+ line[0], windowWidth*0.2, height*0.5- 2.5 *windowWidth*0.028)
-  text('GY: '+ line[1], windowWidth*0.2, height*0.5- 1.5 *windowWidth*0.028)
-  text('pascal: '+ line[2], windowWidth*0.2, height*0.5- 0.5 *windowWidth*0.028)
-  text('temperature: '+ line[3], windowWidth*0.2, height*0.5+ 0.5 *windowWidth*0.028)
-  text('meters: '+ line[4], windowWidth*0.2, height*0.5+1.5 *windowWidth*0.028)
-  text('waveheight: '+ line[5], windowWidth*0.2, height*0.5+2.5 *windowWidth*0.028)
+  text('Send time: '+ line[0], windowWidth*0.2, height*0.5- 3.5 *windowWidth*0.028)
+  text('Acceleration: '+ line[1] +', '+line[2]+', '+line[3], windowWidth*0.2, height*0.5- 2.5 *windowWidth*0.028)
+  text('Gyroscope: '+ line[4] +', '+line[5]+', '+line[6], windowWidth*0.2, height*0.5- 1.5 *windowWidth*0.028)
+  text('Atomospheric Pressure: '+ line[7], windowWidth*0.2, height*0.5- 0.5 *windowWidth*0.028)
+  text('Temperature: '+ line[8] , windowWidth*0.2, height*0.5+ 0.5 *windowWidth*0.028)
+  text('Altitude: '+ line[9], windowWidth*0.2, height*0.5+1.5 *windowWidth*0.028)
+  text('Waveheight: '+ line[10], windowWidth*0.2, height*0.5+2.5 *windowWidth*0.028)
   //text('statu'+statu+' counter'+counter, width*0.2, height*0.5+ 4 *windowWidth*0.028)
+  text('Location: '+ line[11]+'E '+line[12]+'N ', windowWidth*0.2, height*0.5+ 3.5 *windowWidth*0.028)
 
   //字行差height*0.05=41.15, font大小=width*0.02=28.8, 差=font大小*1.4=width*0.028
   //字位置：height*0.5- x *width*0.028
@@ -87,10 +88,4 @@ function loadtext(result) {
   //if(result!=line){changed();}
   line=result;
   
-}
-function mousePressed() {
-  if (mouseX > 0 && mouseX < (windowWidth) && mouseY > 0 && mouseY < (windowHeight)) {
-    let fs = fullscreen();
-    fullscreen(!fs);
-  }
 }

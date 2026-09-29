@@ -78,13 +78,13 @@ function keyPressed() {
 
 function change(){
   if (statu==0) {
-    thisd += (0.5 - thisd)*0.2;
-    radius += (1 - radius)*0.2;
-    noiseStrength += (50 - noiseStrength)*0.2;
-    noiseScale += (3000 - noiseScale)*0.2;
-    w += (expw - w)*0.2;
-    h += (exph - h)*0.2;
-    consist += (25.5 - consist)*0.2;
+    thisd += (0.5 - thisd)*0.002;
+    radius += (1 - radius)*0.002;
+    noiseStrength += (50 - noiseStrength)*0.002;
+    noiseScale += (3000 - noiseScale)*0.002;
+    w += (expw - w)*0.002;
+    h += (exph - h)*0.002;
+    consist += (25.5 - consist)*0.002;
     
   } 
   else {
