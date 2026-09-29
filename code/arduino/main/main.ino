@@ -80,6 +80,8 @@ void loop() {
   TCA9548A(0);//切換至GY86
   mag.getHeading(&mx, &my, &mz);
   gyprintResults();
+  
+  GPSss.listen();
   delay(90000);//延遲一下!讓gps抓訊號
   TCA9548A(1);lcd.init();lcd.clear(); //切換回lcd且GPS開始抓資料
 
