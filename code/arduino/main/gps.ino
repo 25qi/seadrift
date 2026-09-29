@@ -1,5 +1,4 @@
-unsigned long gpstime= 5000; //milseconds 000
-//注意資料型別！
+int gpsworktime = 10000; //milseconds 000
 #include <TinyGPS++.h>//GPS模組S
 #include <AltSoftSerial.h>
 TinyGPSPlus gps;
@@ -20,12 +19,8 @@ void setup_gps() {
 void gpswork() {
   unsigned long start_time = millis();
   // try for 250 seconds and break if all is valid early
-  while ( (millis() - start_time) < gpstime ) {
-    //Serial.println( (millis() - start_time) < 60000 );
-    //Serial.println((millis() - start_time));
-    //types(millis());
-    //types(millis() - start_time);
-    while (GPSss.available() > 0){
+  while ( millis() - start_time < gpsworktime ) {
+    while (GPSss.available() > 0) {
       if (gps.encode(GPSss.read())) {
         if (gps.location.isValid()) {
           gpsdata.latitude = gps.location.lat();
@@ -62,17 +57,4 @@ void send_data_gps() {
   Serial.print(gpsdata.gpstime);
   Serial.println();
   delay(1000);
-}
-
-void types(int x){
-  Serial.println("int");
-}
-void types(float x){
-  Serial.println("float");
-}
-void types(long x){
-  Serial.println("long");
-}
-void types(unsigned long x){
-  Serial.println("unsigned long");
 }

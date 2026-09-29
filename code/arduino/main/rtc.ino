@@ -1,4 +1,4 @@
-int sleeptime = 20; //seconds
+int sleeptime = 5; //seconds
 #include <DS3232RTC.h> //RTC's lib
 //////////////////////////////////////////////////////////////////////
 DS3232RTC rtc; //宣告RTC
@@ -12,18 +12,16 @@ void reset_alarm() { //起床鬧鐘
   rtc.alarmInterrupt(DS3232RTC::ALARM_1, true);
   rtc.squareWave(DS3232RTC::SQWAVE_NONE);
   //      0h 0m 0s
-
+  setTime(0, 0, 0, 1, 1, 1970);
+  rtc.set(now());
+  // set new alar
+  rtc.setAlarm(DS3232RTC::ALM1_MATCH_SECONDS, sleeptime, 0, 0, 1); //可以調整睡多久
+  // clear old alarm flag - turning off system
 }
 //////////////////////////////////////////////////////////////////////
 void turn_off() {  //程式有對就會醒來！
   // clear old alarm flag - turning off system
-  
   TCA9548A(0);//RTC
-  setTime(0, 0, 0, 1, 1, 1970);
-  rtc.set(now());
-  // set new alar
-  rtc.setAlarm(DS3232RTC::ALM1_MATCH_SECONDS,sleeptime, 0, 0, 1); //可以調整睡多久
-  // clear old alarm flag - turning off system
   rtc.alarm(DS3232RTC::ALARM_1);
 }
 
