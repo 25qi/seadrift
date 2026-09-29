@@ -1,0 +1,10 @@
+* text=auto
+*.ino text
+*.pde text
+*.py text
+*.js text
+*.fzz binary
+*.ttf binary
+*.png binary
+*.jpg binary
+*.mp3 binary
