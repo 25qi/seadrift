@@ -19,7 +19,7 @@ struct structgy91 {
 } gy91data;
 //////////////////////////////////////////////////////////////////////
 void setup_gy91() {
-  TCA9548A(1);//切換至GY91
+  TCA9548A(1);//切換至GY91  
   bmp280.initialize();
   bmp280.setEnabled(0);
   bmp280.triggerMeasurement();
@@ -92,4 +92,17 @@ void send_data_gy91() {
   Serial.print(gy91data.temperature1);
   Serial.println(" C");
   delay(1000);
+
+  addToQueue(gy91data.ax*100, 10);//Serial.println(gy91data.ax*100);
+  addToQueue(gy91data.ay*100, 10);//Serial.println(gy91data.ay*100);
+  addToQueue(gy91data.az*100, 10);//Serial.println(gy91data.az*100);
+
+  addToQueue(gy91data.gx*100, 10);
+  addToQueue(gy91data.gy*100, 10);
+  addToQueue(gy91data.gz*100, 10);
+
+  addToQueue(gy91data.meters2*10, 17); 
+  addToQueue(gy91data.meters1*100, 18);
+  addToQueue(gy91data.pascal*10, 17); 
+  addToQueue(gy91data.wave_height*100, 28); 
 }

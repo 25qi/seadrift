@@ -38,7 +38,7 @@ void gpswork() {
       work_blueled();
       if (gpsdata.gpsdate != 0) {
         //這裡再看要怎麼寫
-        buzzer01();
+        buzzergo(1);
         break;
       }
     }
@@ -51,10 +51,12 @@ void send_data_gps() {
   Serial.print(gpsdata.latitude, 6); 
   Serial.print(", "); 
   Serial.println(gpsdata.longitude, 6);
-  Serial.print("Date: ");
-  Serial.print(gpsdata.gpsdate);
-  Serial.print("  Time: ");
-  Serial.print(gpsdata.gpstime);
-  Serial.println();
+//  Serial.print("Date: ");
+//  Serial.print(gpsdata.gpsdate);
+//  Serial.print("  Time: ");
+//  Serial.print(gpsdata.gpstime);
+
+  addToQueue(gpsdata.latitude*100, 29);
+  addToQueue(gpsdata.longitude*100, 29);
   delay(1000);
 }
