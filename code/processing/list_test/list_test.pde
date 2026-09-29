@@ -13,6 +13,7 @@ println("there are " + lines.length + " lines");
 for (int i = 0 ; i < lines.length; i++) {
   println(lines[i]);
 }
+window.location.reload(); 
 }
 void reset(){
 lines = loadStrings("list.txt"); //<>//
