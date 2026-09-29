@@ -21,24 +21,24 @@ void setup() {
   delay(1000);
   setup_bt();
   delay(1000);
-  buzzer03();//gps開始
   setup_gps();
   setup_gy91();
+  buzzer03();//iridium
   setup_iridium();
-  delay(1000);
+  //delay(1000);
 
 }
 
 void loop() {
+  buzzer02();
   digitalWrite(led, HIGH); //當開始運作，led燈亮
   gpswork();
-  buzzer02();
   gy91work();
-  buzzer03();//結束，準備send
   reset_alarm();
   send_data_gy91();
   send_data_gps();
   //send_data_PowerControl();
   delay(2000);
+  buzzer03();
   turn_off(); //已經移至IridiumSend
 }
