@@ -97,7 +97,7 @@ void send_data_gy91() {
   addToQueue(gy91data.gy*100, 17);
   addToQueue(gy91data.gz*100, 17);
 
-  addToQueue(gy91data.pascal*10, 21); //改成20位
+  addToQueue(gy91data.pascal*10, 21);
   addToQueue(gy91data.temperature1*100, 14); 
   addToQueue(gy91data.meters2*100, 18);
   addToQueue(gy91data.wave_height*100, 18); 
