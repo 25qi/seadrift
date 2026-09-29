@@ -26,30 +26,24 @@ void gpswork() {
           gpsdata.latitude = gps.location.lat();
           gpsdata.longitude = gps.location.lng();
         }
-        if (gps.date.isValid() && gps.time.isValid()) {
-          gpsdata.gpstime = gps.time.value();
-          gpsdata.gpsdate = gps.date.value();
-        }
       }
     }
     delay(10);
 
-    if ( gps.location.isValid() && gps.date.isValid() && gps.time.isValid()) {
-      work_blueled();
-      if (gpsdata.gpsdate != 0) {
-        //這裡再看要怎麼寫
-        buzzergo(1);
-        break;
-      }
-    }
+//    if ( gps.location.isValid()) {
+//      work_blueled();
+//      if (gpsdata.gpsdate != 0) {
+//        //這裡再看要怎麼寫
+//        buzzergo(1);
+//        break;
+//      }
+//    }
   }
   delay(1000);
 }
 //////////////////////////////////////////////////////////////////////
 void send_data_gps() {
-  Serial.print("Location: ");
-  Serial.print(gpsdata.longitude, 6); 
-  Serial.print(", "); 
+  Serial.println(gpsdata.longitude, 6); 
   Serial.println(gpsdata.latitude, 6);
 //  Serial.print("Date: ");
 //  Serial.print(gpsdata.gpsdate);

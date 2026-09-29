@@ -8,7 +8,6 @@ void addToQueue(long decnum, int digit){
 //  Serial.println(bin.length());
   } //補0直到指定位數
   if(decnum<0){bin=String("1"+bin);}else{bin=String("0"+bin);} //負則開頭為1，正則開頭為0
-
   queue = queue + bin; 
 //  Serial.print(F("傳送序列已增加「"));Serial.print(bin);Serial.println("」"); 
   //Serial.print(F("傳送序列現在為「"));Serial.print(queue);Serial.println("」");

@@ -63,34 +63,30 @@ void gy91work() {
 }
 //////////////////////////////////////////////////////////////////////
 void send_data_gy91() {
-  Serial.print(F("AccX: "));
-  Serial.print(gy91data.ax);
-  Serial.print(F(" AccY: "));
-  Serial.print(gy91data.ay);
-  Serial.print(F(" AccZ: "));
+  //Serial.print(F("AccX: "));
+  Serial.println(gy91data.ax);
+  //Serial.print(F(" AccY: "));
+  Serial.println(gy91data.ay);
+  //Serial.print(F(" AccZ: "));
   Serial.println(gy91data.az);
 
-  Serial.print(F("GyX: "));
-  Serial.print(gy91data.gx);
-  Serial.print(F(" GyY: "));
-  Serial.print(gy91data.gy);
-  Serial.print(F(" GyZ: "));
+  //Serial.print(F("GyX: "));
+  Serial.println(gy91data.gx);
+  //Serial.print(F(" GyY: "));
+  Serial.println(gy91data.gy);
+  //Serial.print(F(" GyZ: "));
   Serial.println(gy91data.gz);
 
-  //  Serial.print("Temp: ");
-  //  Serial.println(gy91data.temp);
-
-  Serial.print(F("Height: "));
-  Serial.print(gy91data.meters2);
-  Serial.print(F(" m; WaveHeight: "));
-  Serial.print(gy91data.wave_height);
-  Serial.println(" m");
-  
-  Serial.print(F("Pressure: "));
-  Serial.print(gy91data.pascal);
-  Serial.print(F(" Pa; T: "));
-  Serial.print(gy91data.temperature1);
-  Serial.println(F(" C"));
+  //Serial.print(F("Pressure: "));
+  Serial.println(gy91data.pascal);
+  //Serial.print(F(" Pa; T: "));
+  Serial.println(gy91data.temperature1);
+  //Serial.println(F(" C"));
+    //Serial.print(F("Height: "));
+  Serial.println(gy91data.meters2);
+  //Serial.print(F(" m; WaveHeight: "));
+  Serial.println(gy91data.wave_height);
+  //Serial.println(" m");
   delay(1000);
 
   addToQueue(gy91data.ax*100, 10);//Serial.println(gy91data.ax*100);
@@ -103,6 +99,6 @@ void send_data_gy91() {
 
   addToQueue(gy91data.pascal*10, 21);
   addToQueue(gy91data.temperature1*100, 14); 
-  addToQueue(gy91data.meters1*100, 18);
+  addToQueue(gy91data.meters2*100, 18);
   addToQueue(gy91data.wave_height*100, 18); 
 }

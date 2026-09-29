@@ -16,15 +16,15 @@ void setup() {
   Serial.print("SerialBegin");
   delay(5000); //預留時間，等待開機電源供應穩定
   pinMode(led, OUTPUT); //設定led的腳為輸出
-  setup_blueled();Serial.println(F("blueledOK"));
-  setup_buzzer();Serial.println(F("buzzerOK"));
+  setup_blueled();//Serial.println(F("blueledOK"));
+  setup_buzzer();//Serial.println(F("buzzerOK"));
   //setup_powerControl();
-  Wire.begin();Serial.println(F("wireOK"));
+  Wire.begin();//Serial.println(F("wireOK"));
   delay(1000);
   buzzergo(3);//gps開始
-  setup_gps();Serial.println(F("gpssetupOK"));
-  setup_gy91();Serial.println(F("gy91setupOK"));
-  setup_iridium();Serial.println(F("iridiumsetupOK"));
+  setup_gps();//Serial.println(F("gpssetupOK"));
+  setup_gy91();//Serial.println(F("gy91setupOK"));
+  setup_iridium();//Serial.println(F("iridiumsetupOK"));
   delay(1000);
 
   digitalWrite(led, HIGH); //當開始運作，led燈亮
@@ -37,7 +37,6 @@ void setup() {
   //send_data_PowerControl();
   Serial.println(F("queueToText"));queueToText();
   delay(2000);
-  TCA9548A(0);Serial.println(F("成功"));
   Serial.println(F("reset alarm"));reset_alarm();
   Serial.println(F("ready to turn off"));turn_off(); //移至IridiumSend
 
