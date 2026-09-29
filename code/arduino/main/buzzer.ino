@@ -40,23 +40,38 @@ void buzzer03() {
     noTone(buzzer);
     delay(300);
   }
+  noTone(buzzer);
+}
+
 void buzzer04() {
   //衛星成功
-  tone(buzzer, melody[1]);
-  delay(1300);
-  tone(buzzer, melody[3]);
-  delay(1300);
-  tone(buzzer, melody[5]);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
   noTone(buzzer);
   }
 void buzzer05() {
   //衛星失敗
-  tone(buzzer, melody[6]);
-  delay(1300);
-  tone(buzzer, melody[3]);
-  delay(1300);
-  tone(buzzer, melody[1]);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
+  delay(300);
+  tone(buzzer, melody[7]);
   noTone(buzzer);
   }
-  noTone(buzzer);
-}
+
+  
