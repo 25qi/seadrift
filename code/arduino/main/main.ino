@@ -6,7 +6,7 @@
 #include "i2c.h"
 ///////////////////////////////////////////////////////////////////////
 int led = LED_BUILTIN;  // 用內建LED燈
-int blueled=6;
+int blueled = 6;
 //////////////////////////////////////////////////////////////////////
 void TCA9548A(uint8_t bus) { //調整MUX現在要處理誰的函式
   Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
@@ -29,7 +29,7 @@ void setup() {
   pinMode(led, OUTPUT); //設定led的腳為輸出
   setup_blueled();
   setup_buzzer();
- 
+  setup_powerControl();
   Wire.begin();
   delay(1000);
   setup_bt();
@@ -44,10 +44,11 @@ void loop() {
   gpswork();
   buzzer02();
   gy91work();
-  buzzer03();//結束，準備send  
+  buzzer03();//結束，準備send
+  reset_alarm();
   send_data_gy91();
   send_data_gps();
-  delay(3000);
-  reset_alarm();
+  send_data_PowerControl();
+  delay(2000);
   turn_off();
 }

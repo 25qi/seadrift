@@ -1,11 +1,10 @@
-int gpsworktime = 500000; //milseconds 000
+int gpsworktime = 10000; //milseconds 000
 #include <TinyGPS++.h>//GPS模組S
 #include <AltSoftSerial.h>
 TinyGPSPlus gps;
 AltSoftSerial GPSss;//GPS模組，Pin8為RX，接GPS的TXD；Pin9為TX，接GPS的RXD
 //////////////////////////////////////////////////////////////////////
 struct structgps {
-  
   double latitude;
   double longitude;
   unsigned long gpsdate;
