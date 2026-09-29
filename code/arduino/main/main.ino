@@ -1,4 +1,4 @@
-//成功在連接電腦時跑出location 但僅有幾次 且要靠近窗邊
+//0731修改中
 #include <DS3232RTC.h> //RTC's lib
 #include <Wire.h>
 #include <FaBo9Axis_MPU9250.h>
@@ -6,10 +6,10 @@
 #include "i2c_BMP280.h"
 #include "I2Cdev.h"
 #include <TinyGPS++.h>//GPS模組S
-//#include <TinyGPSPlus.h>
-
-//#include <SoftwareSerial.h>
 #include <AltSoftSerial.h>
+//#include <TinyGPSPlus.h>
+//#include <SoftwareSerial.h>
+
 TinyGPSPlus gps;
 AltSoftSerial GPSss;//GPS模組，Pin8為RX，接GPS的TXD；Pin9為TX，接GPS的RXD
 //SoftwareSerial GPSss(3,4);//GPS模組，Pin3為RX，接GPS的TXD；Pin4為TX，接GPS的RXD
@@ -27,6 +27,8 @@ struct dataStruct {
   unsigned long time;
 } gpsData;
 
+
+
 //以上是GPS的變數
 
 void TCA9548A(uint8_t bus) { //調整MUX現在要處理誰的函式
@@ -36,10 +38,11 @@ void TCA9548A(uint8_t bus) { //調整MUX現在要處理誰的函式
 }
 
 void setup() {
-  delay(10000); //預留時間，等待開機電源供應穩定
+  delay(5000); //預留時間，等待開機電源供應穩定
   Serial.begin(115200);
-  GPSss.begin(9600);//GPS模組啟動
   Wire.begin();
+  GPSss.begin(9600);//GPS模組啟動
+
 
   TCA9548A(1);//切換至GY91
   Serial.println("RESET");
@@ -72,20 +75,21 @@ void loop() {
   digitalWrite(led, HIGH); //當開始運作，led燈亮
   TCA9548A(1);//切換至GY86
   gy91work();
-  delay(100000);//延遲一下!讓gps抓訊號
-  Serial.println("finish delay");
+  delay(200000);//延遲一下!讓gps抓訊號
+  //Serial.println("finish delay");
 
-    while (GPSss.available() > 0){
-    Serial.println("in the while");
-    if (gps.encode(GPSss.read())){
-      Serial.println("in the if");
+  while (GPSss.available() > 0) {
+    //Serial.println("in the while");
+    if (gps.encode(GPSss.read())) {
+      //Serial.println("in the if");
       GPSgetInfo();
-      GPSprintResults();
-      Serial.println("finish the if");
+      if (x != 0) {
+        GPSprintResults();
+        break;
+      }
+      //Serial.println("finish the if");
     }
-    else{
-      Serial.println("else");
-    }
+
   }
   Serial.println("time to sleep");
   TCA9548A(0);//切換至RTC
@@ -171,29 +175,31 @@ void gy91work() {
   delay(1000);
 }
 
-void GPSgetInfo(){
-  if (gps.location.isValid()){
+void GPSgetInfo() {
+  int x;
+  if (gps.location.isValid()) {
     gpsData.latitude = gps.location.lat();
     gpsData.longitude = gps.location.lng();
   }
-  else{
+  else {
     Serial.println("Invalid location");
   }
-  if (gps.date.isValid()){
+  if (gps.date.isValid()) {
     gpsData.date = gps.date.value();
   }
-  else{
+  else {
     Serial.println("Invalid date");
   }
-  if (gps.time.isValid()){
+  if (gps.time.isValid()) {
     gpsData.time = gps.time.value();
+    x = gpsData.time;
   }
-  else{
+  else {
     Serial.println("Invalid time");
   }
 }
 
-void GPSprintResults(){
+void GPSprintResults() {
   Serial.print("Location: ");
   Serial.print(gpsData.latitude, 6); Serial.print(", "); Serial.print(gpsData.longitude, 6);
   Serial.print("  Date: ");
