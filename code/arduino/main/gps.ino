@@ -43,8 +43,8 @@ void gpswork() {
 }
 //////////////////////////////////////////////////////////////////////
 void send_data_gps() {
-  Serial.println(gpsdata.longitude, 6); 
-  Serial.println(gpsdata.latitude, 6);
+//  Serial.println(gpsdata.longitude, 6); 
+//  Serial.println(gpsdata.latitude, 6);
 //  Serial.print("Date: ");
 //  Serial.print(gpsdata.gpsdate);
 //  Serial.print("  Time: ");

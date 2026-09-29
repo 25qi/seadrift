@@ -13,25 +13,26 @@ void setup_iridium()
   IridiumSerial.begin(19200);
   Serial.println(F("Starting modem..."));
   err = modem.begin();
-  if (err != ISBD_SUCCESS)
-  {
-    Serial.print(F("Begin failed "));
-    Serial.println(err);
-    if (err == ISBD_NO_MODEM_DETECTED)
-    Serial.println(F("No modem detected"));
+//  if (err != ISBD_SUCCESS)
+//  {
+//    Serial.print(F("Begin failed "));
+//    Serial.println(err);
+//    if (err == ISBD_NO_MODEM_DETECTED)
+//    Serial.println(F("No modem detected"));
 //    return;
-  }
+//  }
   err = modem.clearBuffers(ISBD_CLEAR_MO); // Clear MO buffer
 }
 
 void iridiumsend()
 {
 int err;
-  Serial.println(F("Trying to send the message..."));
+//  Serial.println(F("Trying to send the message..."));
   err = modem.sendSBDBinary(buf, 30);
   if (err != ISBD_SUCCESS)
-  {   Serial.println("ISBDNOTSUCCESS");buzzergo(5);
-    if (err == ISBD_SENDRECEIVE_TIMEOUT){Serial.println(F("IridiumTimeout"));}
+  {   //Serial.println("ISBDNOTSUCCESS");
+  buzzergo(3);
+//    if (err == ISBD_SENDRECEIVE_TIMEOUT){Serial.println(F("IridiumTimeout"));}
   }
 
   else

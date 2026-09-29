@@ -1,5 +1,5 @@
 String queue;
-uint8_t buf[50];
+uint8_t buf[30];
 int emptybuf=0;
 void addToQueue(long decnum, int digit){
   String bin;

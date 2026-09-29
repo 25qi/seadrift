@@ -12,8 +12,8 @@ void TCA9548A(uint8_t bus) { //調整MUX現在要處理誰的函式
 }
 //////////////////////////////////////////////////////
 void setup() {
-  Serial.begin(9600);
-  Serial.print("SerialBegin");
+//  Serial.begin(9600);
+//  Serial.print("SerialBegin");
   delay(5000); //預留時間，等待開機電源供應穩定
   pinMode(led, OUTPUT); //設定led的腳為輸出
   setup_blueled();//Serial.println(F("blueledOK"));
@@ -31,18 +31,17 @@ void setup() {
   delay(1000);
 
   digitalWrite(led, HIGH); //當開始運作，led燈亮
-  Serial.println(F("gpsStartWork"));gpswork();
-  buzzergo(2);
-  Serial.println(F("gy91startwork"));gy91work();
-  buzzergo(3);//結束，準備send
-  Serial.println(F("send data gy91"));send_data_gy91();
-  Serial.println(F("send data gps"));send_data_gps();
+  gpswork();
+  buzzergo(5);
+  gy91work();
+  buzzergo(6);//結束，準備send
+  send_data_gy91();
+  send_data_gps();
   //send_data_PowerControl();
-  Serial.println(F("queueToText"));queueToText();
+  queueToText();
   delay(2000);
-  //Serial.println(F("reset alarm"));reset_alarm();
-  Serial.println(F("ready to turn off"));turn_off(); //移至IridiumSend
-
+  reset_alarm();
+  turn_off(); //移至IridiumSend
 }
 
 void loop() {
