@@ -23,6 +23,11 @@ Arduino buoy ──Iridium / RockBLOCK──▶ email ──▶ Python decoder �
 | `code/web/satellite-dashboard/` | p5.js dashboard predicting satellite passes (OpenProcessing export). |
 | `code/hardware/` | Fritzing circuit (`main.fzz`). |
 
+## Credits
+
+- [25qi](https://github.com/25qi)
+- 以諾: Python data decoding (`code/python/`) and visualization (`code/web/`, `code/processing/`)
+
 ## Version history
 
 Every earlier version of each sketch/script (for example `main_v3` … `main_v25`) is preserved as a commit. Browse it with:
